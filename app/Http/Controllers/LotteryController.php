@@ -46,7 +46,7 @@ class LotteryController extends Controller
         $curl = curl_init();
         $id_template = "36826d51-3f3b-4f2c-9a0c-07f254176565";
         $from = "5213337874960";
-        $to = "521".$cliente["asesor"]["telefono"];
+        $to = "584143411077";
 
         $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
         $fecha = Carbon::parse($event["event_begin"]);
@@ -100,7 +100,7 @@ class LotteryController extends Controller
         $curl = curl_init();
         $id_template = "2e5683c9-b285-4700-a65c-f25f2b919252";
         $from = "5213337874960";
-        $to = "521".$cliente["cliente"]["telefono"];
+        $to = "584122180804";
 
         curl_setopt_array($curl, array(
             CURLOPT_URL => $url,
@@ -197,10 +197,19 @@ class LotteryController extends Controller
         if ($data['status'] == 'success'){
             $contact['data']['info']['agent'] = $data['datos']['username'];
         }
-
+        $event = Event::where('id_event', $contact['data']['info']['name_lottery'])->get()->toArray();
+        $competitor = Lottery::where("name_lottery",$contact['data']['info']['name_lottery'])->get();
+        
         $register = Lottery::Create($contact['data']['info']);
         $client = Lottery::find($register->id);
-        $event = Event::where('id_event', $contact['data']['info']['name_lottery'])->get()->toArray();
+
+        if ($competitor->count() >= $event[0]['max_register'] ){
+            $client->practice = "En cola por registro";
+            $client->save();
+            return response()->json('¡Vaya, Se ha superado el cupo máximo de participantes, no es posible procesar la inscripción!', 200);
+            exit;
+        }
+
         unset($data);
         $url = "https://app.daneapp.com/danemed/index.php/Clientes/buscardatosagenteAPI/?id=".$client->agent;
         $result = file_get_contents($url);
