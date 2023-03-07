@@ -128,23 +128,6 @@
                     ></b-col>
                 </b-row>
                 <b-row class="my-3">
-                    <b-col cols="12" md="4" class="text-md-end">
-                        <b-form-group
-                            label="¿Aplica rellenos de Ácido Hialurónico?"
-                        >
-                        </b-form-group>
-                    </b-col>
-                    <b-col cols="12" md="6">
-                        <b-form-select
-                            id="input-3"
-                            class="form-control"
-                            v-model="form.practice"
-                            :options="options"
-                            required
-                        ></b-form-select>
-                    </b-col>
-                </b-row>
-                <b-row class="my-3">
                     <b-col cols="12" md="4" class="text-md-end"> </b-col>
                     <b-col cols="12" md="6">
                         <b-button
@@ -175,7 +158,6 @@ export default {
                 email: "",
                 whatsapp: null,
                 cedula_p: "",
-                practice: "",
             },
             options: [
                 { value: null, text: "Por favor, selecciona una opción", disabled: true },
@@ -263,7 +245,6 @@ export default {
             this.form.city = "";
             this.form.whatsapp = null;
             this.form.cedula_p = "";
-            this.form.practice = "";
             // Trick to reset/clear native browser form validation state
             this.show = false;
             this.$nextTick(() => {

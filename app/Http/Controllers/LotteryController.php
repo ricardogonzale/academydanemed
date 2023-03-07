@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use JamesDordoy\LaravelVueDatatable\Http\Resources\DataTableCollectionResource;
 use Illuminate\Support\Facades\Http;
+use Carbon\Carbon;
 
 class LotteryController extends Controller
 {
@@ -40,12 +41,17 @@ class LotteryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function send_sms_whatsapp($cliente){
+    public function send_sms_whatsapp($cliente, $event){
         $url = 'https://api.zenvia.com/v2/channels/whatsapp/messages';
         $curl = curl_init();
-        $id_template = "cc550597-aa45-4972-8140-8c1f2ba07462";
+        $id_template = "36826d51-3f3b-4f2c-9a0c-07f254176565";
         $from = "5213337874960";
-        $to = "521".$cliente["asesor"]["telefono"];
+        $to = "584143411077";
+
+        $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+        $fecha = Carbon::parse($event["event_begin"]);
+        $mes = $meses[($fecha->format('n')) - 1];
+        $event_day = $fecha->format('d') . ' de ' . $mes . ' de ' . $fecha->format('Y');
         
         /* MENSAJE PARA EL ASESOR*/
 
@@ -68,10 +74,13 @@ class LotteryController extends Controller
                     "type": "template",
                     "templateId": "'.$id_template.'",
                     "fields": {
-                      "date_regis": "'.date("d/m/Y").'",
-                      "name_client": "asesor, tu cliente '.$cliente["cliente"]["nombre"].'",
-                      "event": "Congreso Internacional de Dermatología RegioDerma 2023",
-                      "soporte": "'.$cliente["cliente"]["evento"].'"
+                        "nombre_doctor": "El Dr. '.$cliente["cliente"]["nombre"].'",
+                        "dia_evento": "Viernes",
+                        "nombre_evento": "'.$event["event_name"].'",
+                        "ciudad": "'.$event["ubication"].'",
+                        "fecha_evento": "'.$event_day.'",
+                        "lugar_evento": "'.$event["place"].'",
+                        "hora_evento": "'.$event["hour"].'"
                     }
                   }
                 ]
@@ -88,9 +97,9 @@ class LotteryController extends Controller
         curl_close($curl);
 
         $curl = curl_init();
-        $id_template = "4e1ed346-06c5-4d21-a291-dbe671bd9678";
+        $id_template = "2e5683c9-b285-4700-a65c-f25f2b919252";
         $from = "5213337874960";
-        $to = "521".$cliente["cliente"]["telefono"];
+        $to = "584122180804";
 
         curl_setopt_array($curl, array(
             CURLOPT_URL => $url,
@@ -111,8 +120,12 @@ class LotteryController extends Controller
                     "type": "template",
                     "templateId": "'.$id_template.'",
                     "fields": {
-                      "telefono": "'.$cliente["asesor"]["telefono"].'",
-                      "asesordata": "'.$cliente["asesor"]["prefijo"].' '.$cliente["asesor"]["nombre"].'"
+                      "nombre_doctor": "Dr. '.$cliente["cliente"]["nombre"].'",
+                      "dia_evento": "Viernes",
+                      "nombre_evento": "'.$event["event_name"].'",
+                      "fecha_evento": "'.$event_day.'",
+                      "lugar_evento": "'.$event["place"].'",
+                      "hora_evento": "'.$event["hour"].'"
                     }
                   }
                 ]
@@ -133,7 +146,6 @@ class LotteryController extends Controller
     public function create(Request $request)
     {
         $contact['data'] = json_decode($request->data,true);
-
         $messages = [
             'email.required' => 'El correo electrónico es obligatorio',
             'cedula_p.required' => 'La cédula profesional es obligatoria',
@@ -187,6 +199,7 @@ class LotteryController extends Controller
 
         $register = Lottery::Create($contact['data']['info']);
         $client = Lottery::find($register->id);
+        $event = Event::where('id_event', $contact['data']['info']['name_lottery'])->get()->toArray();
         unset($data);
         $url = "https://app.daneapp.com/danemed/index.php/Clientes/buscardatosagenteAPI/?id=".$client->agent;
         $result = file_get_contents($url);
@@ -195,7 +208,7 @@ class LotteryController extends Controller
             $mensaje["cliente"] = array("nombre"=>$client->name,"telefono"=>$client->whatsapp,"evento"=>$client->id,"fecha"=>'04/03/2023');
             $mensaje["asesor"] = array("nombre"=>$data['datos']['nombre'].' '.$data['datos']['nombre2'],"telefono"=>$data['datos']['telefono'],"prefijo"=>$data['datos']['prefijo_sms']);
         }
-        $this->send_sms_whatsapp($mensaje);
+        $this->send_sms_whatsapp($mensaje,$event[0]);
         return response()->json('¡Registro completado con Exito!', 200);
     }
 

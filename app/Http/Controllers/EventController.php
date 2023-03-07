@@ -49,13 +49,16 @@ class EventController extends Controller
         $event->event_name = $request->eventname;
         $event->description = $request->eventdescription;
         $event->ubication = $request->eventdir;
+        $event->place = $request->eventplace;
         $event->max_register = $request->eventmax;
-        $event->register_begin = Carbon::createFromFormat('m/d/Y', $request->starlottery)->format('Y-m-d');
-        $event->register_end = Carbon::createFromFormat('m/d/Y', $request->endlottery)->format('Y-m-d');
-        $event->event_begin = Carbon::createFromFormat('m/d/Y', $request->starevent)->format('Y-m-d');
-        $event->event_end = Carbon::createFromFormat('m/d/Y', $request->endevent)->format('Y-m-d');
+        $event->register_begin = Carbon::createFromFormat('d/m/Y', $request->starlottery)->format('Y-m-d');
+        $event->register_end = Carbon::createFromFormat('d/m/Y', $request->endlottery)->format('Y-m-d');
+        $event->event_begin = Carbon::createFromFormat('d/m/Y', $request->starevent)->format('Y-m-d');
+        $event->event_end = Carbon::createFromFormat('d/m/Y', $request->endevent)->format('Y-m-d');
+        $event->hour = $request->hour;
  
         $event->save();
+        return redirect()->action([EventController::class, 'index']);
     }
 
     /**

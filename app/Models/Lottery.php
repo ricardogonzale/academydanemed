@@ -59,5 +59,5 @@ class Lottery extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name_lottery', 'name', 'city', 'email', 'whatsapp', 'cedula_p', 'practice', 'agent', 'created_at', 'updated_at'];
+    protected $fillable = ['name_lottery', 'name', 'city', 'email', 'whatsapp', 'cedula_p', 'agent', 'created_at', 'updated_at'];
 }
