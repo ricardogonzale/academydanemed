@@ -46,7 +46,7 @@ class LotteryController extends Controller
         $curl = curl_init();
         $id_template = "36826d51-3f3b-4f2c-9a0c-07f254176565";
         $from = "5213337874960";
-        $to = "584143411077";
+        $to = "521".$cliente["asesor"]["telefono"];
 
         $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
         $fecha = Carbon::parse($event["event_begin"]);
@@ -80,7 +80,8 @@ class LotteryController extends Controller
                         "ciudad": "'.$event["ubication"].'",
                         "fecha_evento": "'.$event_day.'",
                         "lugar_evento": "'.$event["place"].'",
-                        "hora_evento": "'.$event["hour"].'"
+                        "hora_evento": "'.$event["hour"].'",
+                        "registro": "'.$cliente["cliente"]["evento"].'"
                     }
                   }
                 ]
@@ -99,7 +100,7 @@ class LotteryController extends Controller
         $curl = curl_init();
         $id_template = "2e5683c9-b285-4700-a65c-f25f2b919252";
         $from = "5213337874960";
-        $to = "584122180804";
+        $to = "521".$cliente["cliente"]["telefono"];
 
         curl_setopt_array($curl, array(
             CURLOPT_URL => $url,

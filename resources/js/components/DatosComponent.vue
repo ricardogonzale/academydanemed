@@ -103,23 +103,6 @@
                         ></b-form-input
                     ></b-col>
                 </b-row>
-                <b-row class="my-3">
-                    <b-col cols="12" md="4" class="text-md-end">
-                        <b-form-group
-                            label="¿Aplica rellenos de Ácido Hialurónico?"
-                        >
-                        </b-form-group>
-                    </b-col>
-                    <b-col cols="12" md="6">
-                        <b-form-select
-                            id="input-3"
-                            class="form-control"
-                            v-model="form.practice"
-                            :options="options"
-                            readonly
-                        ></b-form-select>
-                    </b-col>
-                </b-row>
             </b-form>
         </b-card>
     </b-container>
@@ -137,7 +120,6 @@ export default {
                 email: "",
                 whatsapp: null,
                 cedula_p: "",
-                practice: "",
             },
             options: [
                 { value: null, text: "Por favor, selecciona una opción", disabled: true },
