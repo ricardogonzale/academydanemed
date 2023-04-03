@@ -26,13 +26,19 @@
             <input type="text" class="form-control" name="eventdir" id="eventdir" placeholder="Lugar del Evento" required>
         </div>
         <div class="row">
-            <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="col-sm-12 col-md-4 col-lg-4">
                 <div class="form-group">
                     <label for="eventplace">Lugar del Evento</label>
                     <input type="text" class="form-control" name="eventplace" id="eventplace" placeholder="Dirección del Evento" required>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <div class="form-group">
+                    <label for="eventday">Dia del Evento</label>
+                    <input type="text" class="form-control" name="eventday" id="eventday" placeholder="Dia del Evento (Viernes)" required>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-4">
                 <div class="form-group">
                     <label for="eventName">Máximo de Cupos</label>
                     <input type="text" class="form-control" name="eventmax" id="eventmax" placeholder="Cantidad Máxima de participantes" required>

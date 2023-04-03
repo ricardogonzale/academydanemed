@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $id_event
  * @property string $event_name
+ * @property string $day_event
  * @property string $description
  * @property string $ubication
  * @property string $place
@@ -33,5 +34,5 @@ class Event extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id_event', 'event_name', 'description', 'ubication', 'place', 'logo', 'hour', 'max_register', 'register_begin', 'register_end', 'event_begin', 'event_end', 'updated_at', 'created_at'];
+    protected $fillable = ['id_event', 'event_name', 'day_event', 'description', 'ubication', 'place', 'logo', 'hour', 'max_register', 'register_begin', 'register_end', 'event_begin', 'event_end', 'updated_at', 'created_at'];
 }

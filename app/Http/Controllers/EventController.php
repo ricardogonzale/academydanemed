@@ -47,6 +47,7 @@ class EventController extends Controller
  
         $event->id_event = $request->id_event;
         $event->event_name = $request->eventname;
+        $event->day_event = $request->eventday;
         $event->description = $request->eventdescription;
         $event->ubication = $request->eventdir;
         $event->place = $request->eventplace;

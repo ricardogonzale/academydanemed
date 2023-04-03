@@ -13,6 +13,7 @@
                         <th scope="col">Id Evento</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Descripción</th>
+                        <th scope="col">Dia</th>
                         <th scope="col">Ubicación</th>
                         <th scope="col">Cantidad Máxima</th>
                         <th scope="col">Inicio Sorteo</th>
@@ -25,6 +26,7 @@
                         <th scope="col" style="border: 1px solid #ddd;">Id Evento</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Descripción</th>
+                        <th scope="col">Dia</th>
                         <th scope="col">Ubicación</th>
                         <th scope="col">Cantidad Máxima</th>
                         <th scope="col">Inicio Sorteo</th>
@@ -40,6 +42,7 @@
                     <td>{{$item->id_event}}</td>
                     <td>{{$item->event_name}}</td>
                     <td>{{$item->description}}</td>
+                    <td>{{$item->day_event}}</td>
                     <td>{{$item->ubication}}</td>
                     <td>{{$item->max_register}}</td>
                     <td>{{$item->register_begin}}</td>

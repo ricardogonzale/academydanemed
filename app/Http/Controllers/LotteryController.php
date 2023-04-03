@@ -75,7 +75,7 @@ class LotteryController extends Controller
                     "templateId": "'.$id_template.'",
                     "fields": {
                         "nombre_doctor": "El Dr. '.$cliente["cliente"]["nombre"].'",
-                        "dia_evento": "Viernes",
+                        "dia_evento": "'.$event["day_event"].'",
                         "nombre_evento": "'.$event["event_name"].'",
                         "ciudad": "'.$event["ubication"].'",
                         "fecha_evento": "'.$event_day.'",
@@ -197,6 +197,14 @@ class LotteryController extends Controller
         if ($data['status'] == 'success'){
             $contact['data']['info']['agent'] = $data['datos']['username'];
         }
+        unset($data);
+        $url = "https://app.daneapp.com/danemed/index.php/Clientes/BuscardatoscedulaAPI/".$cedula_p;
+        $result = file_get_contents($url);
+        $data = json_decode($result, true);
+        if ($data['status'] == 'success'){
+            $contact['data']['info']['agent'] = $data['datos']['username'];
+        }
+        
         $event = Event::where('id_event', $contact['data']['info']['name_lottery'])->get()->toArray();
         $competitor = Lottery::where("name_lottery",$contact['data']['info']['name_lottery'])->get();
         
